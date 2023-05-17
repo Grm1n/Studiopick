@@ -1,0 +1,25 @@
+body{
+    background-color: #E5E5E5 !important;
+}
+.navbar-light {
+    background-color: #ffffff;
+}
+.navbar-nav{
+    justify-content: space-between;
+}
+.navbar-brand {
+    font-size: 35px;
+}
+.nav-item{
+    color: #686868 !important;
+    font-size: 20px;
+    padding-right: 15px;
+}
+.nav-item2{
+    background-color: #9370DB !important;
+    border-radius: 15px !important;
+    width: 140px !important;
+    text-align: center !important;
+    font-size: 20px;
+    color: #ffffff;
+}
