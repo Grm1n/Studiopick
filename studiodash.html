@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>StudioPick</title>
+
+	<meta property="og:title" content="StudioPick">
+	<meta property="og:description" content="Find your next studio!">
+	<meta property="og:url" content="https://studiopick.us/">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="627">
+	<meta property="og:type" content="website">
+	<meta property="og:image"
+		content="https://firebasestorage.googleapis.com/v0/b/studiopick-f6c1f.appspot.com/o/studiopick_ad.jpeg?alt=media&token=4d1dbf0a-1c20-4874-afb8-972f09c5c221">
+
+	<!---Twitter Icons--->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="StudioPick">
+	<meta name="twitter:description" content="Find your next studio!">
+	<meta name="twitter:image"
+		content="https://firebasestorage.googleapis.com/v0/b/studiopick-f6c1f.appspot.com/o/studiopick_ad.jpeg?alt=media&token=4d1dbf0a-1c20-4874-afb8-972f09c5c221">
+	<!---Twitter Icons--->
+
+	<link rel="icon" type="image/png"
+		href="https://firebasestorage.googleapis.com/v0/b/studiopick-f6c1f.appspot.com/o/SP_Logo.png?alt=media&token=8f5761a6-f072-4eb0-a99c-271b79a4d101">
+
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+	<link rel="icon" type="image/png" href="/build/Images/SP Logo.png">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<!---Bootstrap CSS--->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+	<link rel="stylesheet" href="CSS/studiodash.css">
+
+	<!-- Mobiscroll JS and CSS Includes -->
+	<link rel="stylesheet" href="CSS/mobiscroll.javascript.min.css">
+	<script src="Javascript/mobiscroll.javascript.min.js"></script>
+
+
+
+	<script>
+		// Check if the user is logged in
+		// const userLoggedIn = sessionStorage.getItem('userLoggedIn');
+		// if (userLoggedIn !== 'true') {
+		// 	// Redirect the user to the login page
+		// 	window.location.href = 'https://studiopick.us/index.html';
+		// }
+
+		function menuToggle() {
+			const toggleMenu = document.querySelector(".menu");
+			toggleMenu.classList.toggle("active");
+		}
+
+		$(document).ready(function () {
+			$('#cashOut').click(function () {
+				$('#payModal').modal('show');
+			});
+		});
+
+		$(document).ready(function () {
+			$('#navbarSupportedContent').on('shown.bs.collapse', function () {
+				$('.navbar-toggler').addClass('toggler-active');
+			});
+
+			$('#navbarSupportedContent').on('hidden.bs.collapse', function () {
+				$('.navbar-toggler').removeClass('toggler-active');
+			});
+		});
+
+
+		// SignOut
+		function signOut() {
+			// Save current page URL
+			var currentPageUrl = window.location.href;
+
+			// Sign out
+			auth.signOut()
+				.then(function () {
+					alert("Signed out successfully from system.");
+
+					// Redirect to saved URL after sign-out
+					window.location.href = currentPageUrl;
+				})
+				.catch(function (error) {
+					console.error(error);
+				});
+		}
+
+
+
+
+	</script>
+</head>
+
+<body>
+	<!---Navbar--->
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#"><strong>StudioPick</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link active" aria-curresnt="page" href="index.html">Home</a>
+						</li>
+						<li class="nav-item2">
+							<div class="action">
+								<div class="profile" onclick="menuToggle();">
+									<img id="profileImg" alt="" />
+								</div>
+								<span class="icon-badge"></span> <!-- Add a badge here -->
+								<div class="menu">
+									<h3 id="profile-name"><strong>User Name</strong></h3>
+									<p class="text-muted" id="userType"
+										style="position: relative; top: -20px; right: -60px; font-size: 12px !important">
+										Studio
+									</p>
+									<ul>
+										<li>
+											<img src="./assets/icons/user.png" />
+											<a id="dashboard-link" href="#">Dashboard</a>
+										</li>
+										<li>
+											<img src="./assets/icons/envelope.png" />
+											<a id="messages-link" href="#">Messages</a>
+											<span class="message-link-badge"></span> <!-- Add a badge here -->
+										</li>
+										<li><img src="./assets/icons/question.png" /><a href="#">Help</a></li>
+										<li>
+											<img src="./assets/icons/log-out.png" /><a href="#"
+												onclick="signOut();">Logout</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!---Navbar--->
+	<main class="main">
+		<div class="responsive-wrapper">
+			<div class="main-header">
+				<h1 id="users-header">
+					<!---This is where the profile name is being displayed--->
+				</h1>
+				<img class="star" src="Images/Star.png">
+				<h2 class="rating">Rating:</h2>
+				<h2 id="current-rating"></h2>
+				<div class="search">
+					<input type="text" placeholder="Search" />
+					<button type="submit">
+						<i class="ph-magnifying-glass-bold"></i>
+					</button>
+				</div>
+			</div>
+			<div class="horizontal-tabs">
+				<a class="tab-button" href="#" data-for-tab="1">Dashboard</a>
+				<a id="payment-history-link" class="tab-button" href="#" data-for-tab="2">Payment History</a>
+				<a id="session-management-link" class="tab-button" href="#" data-for-tab="3">Session Management</a>
+				<a class="tab-button" href="#" data-for-tab="4">My Rooms</a>
+				<a id="edit-profile-link" class="tab-button" href="#" data-for-tab="5">Edit Profile</a>
+				<a class="tab-button" href="#" data-for-tab="6">Edit Payment</a>
+			</div>
+
+
+			<!---Tab 1--->
+			<div class="content" data-tab="1">
+				<div class="content-header">
+					<div class="content-header-intro">
+						<h2>Studio Overview</h2>
+						<p>View your current appointments and the status of your studio.</p>
+					</div>
+				</div>
+				<div class="content-main-wrapper">
+					<div class="content-main">
+
+						<!---Calendar--->
+						<div class="calendar-box">
+							<div class="card-body">
+
+
+								<div mbsc-page class="demo-date-picker">
+
+									<div id="calendar"></div>
+								</div>
+							</div>
+
+
+
+
+
+						</div>
+						<!---Calendar--->
+
+						<!---Current Session--->
+						<div class="current-session">
+							<div class="card-body">
+								<h5 class="card-title text-muted"><strong>Current Session</strong></h5>
+								<!---Data will be shown via Javascript--->
+								<div class="session-body"></div>
+								<div class="current-session-actions"></div>
+							</div>
+						</div>
+						<!---Current Session--->
+
+						<!---Upcoming Sessions--->
+						<div class="upcoming-sessions">
+
+							<div class="card-body" style="padding-top: 0px;">
+								<h5 class="card-title text-muted"><strong>Upcoming Sessions</strong></h5>
+								<!---Data will be shown via Javascript--->
+								<div class="session-wrapper">
+									<div class="upcoming-session-actions"></div>
+									<div class="session-body"></div>
+								</div>
+
+								<!-- Modal -->
+								<div class="modal fade" id="calendarModal" tabindex="-1"
+									aria-labelledby="calendarModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-xl">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title text-muted" id="calendarModalLabel">Select a date
+													& time
+													frame:</h5>
+											</div>
+											<div class="modal-body" id="selectday-body">
+
+												<!---Calendar--->
+												<div mbsc-page class="demo-date-picker">
+
+													<div id="rescheduleCalendar"></div>
+													<div id="time"></div>
+
+												</div>
+												<!---Calendar--->
+
+
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="cancelBook"
+													data-bs-dismiss="modal">Cancel</button>
+
+												<button class="bookBtn" id="save-rescheduled-session">Confirm</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Modal -->
+
+								<button class="upcoming-view" id="view-upcoming-sessions">View Upcoming
+									Sessions</button>
+							</div>
+
+						</div>
+						<!---Upcoming Sessions--->
+
+						<!---Payment History--->
+						<div class="pending-sessions">
+							<div class="card-body">
+								<h5 class="card-title text-muted"><strong>Payment History</strong></h5>
+								<div class="past-transactions" id="past-transactions">
+
+									<!---Data will be displayed via JS--->
+
+								</div>
+
+
+							</div>
+
+							<button class="pending-view" id="pay-history-button">View Payment History</button>
+						</div>
+						<!---Payment History--->
+						<!---Messages--->
+						<div class="messages">
+							<div class="card-body">
+								<h5 class="card-title text-muted"><strong>Messages</strong></h5>
+								<div id="messages">
+
+
+									<!---Data will be displayed via JS--->
+
+
+								</div>
+
+
+
+							</div>
+
+							<button class="view-messages" id="viewMessagesButton">View Messages</button>
+
+						</div>
+						<!---Messages--->
+					</div>
+
+				</div>
+			</div>
+			<!---Tab 1--->
+
+			<!---Tab 2--->
+			<div class="content" data-tab="2">
+				<div class="content-header">
+					<div class="content-header-intro">
+						<h2>View past transactions</h2>
+						<p>Here is where you can view your previous transactions.</p>
+					</div>
+				</div>
+				<div class="content-main-wrapper">
+					<div class="content-main">
+						<div class="wrapper">
+
+							<div class="row mt-2 pt-2">
+								<div>
+									<button class="cashOut" id="cashOut">Cash Out</button>
+								</div>
+								<!-- Modal -->
+								<div class="modal fade" id="payModal" tabindex="-1" aria-labelledby="payModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog modal-xl" id="payBody">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title text-muted" id="payModalLabel">Confirm Payout
+												</h5>
+											</div>
+											<div class="modal-body">
+												<p>Are you sure you want to pay out your balance?</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="cancelBook"
+													data-bs-dismiss="modal">Cancel</button>
+
+												<button class="bookBtn" id="confirmPay">Confirm</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Modal -->
+								<div class="col-md-6" id="income">
+									<div class="d-flex justify-content-start align-items-center">
+										<i class="bi bi-safe" style="color:#03af00"></i>
+										<p class="text mx-3" style="color:#A388E7">Income:</p>
+										<p class="money" id="totalIncome" style="color:#03af00"></p>
+									</div>
+								</div>
+							</div>
+							<div class="table-responsive mt-3">
+								<table id="payHistoryTable" class="table">
+									<thead>
+										<tr>
+											<th scope="col">Customer Name</th>
+											<th scope="col">Service</th>
+											<th scope="col">Date</th>
+											<th scope="col" class="text-right">Amount</th>
+										</tr>
+									</thead>
+									<tbody id="transaction-body">
+
+
+									</tbody>
+								</table>
+							</div>
+							<div class="d-flex justify-content-between align-items-center results"> <span
+									class="pl-md-3">Showing <b class="text-white"> </b> trasactions</span>
+								<div class="pt-3">
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item disabled"> <a class="page-link" href="#"
+													aria-label="Previous"> <span aria-hidden="true">&lt;</span> </a>
+											</li>
+											<li class="page-item"> <a class="page-link" href="#" aria-label="Next">
+													<span aria-hidden="true">&gt;</span> </a> </li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!---Tab 2--->
+			<!---Tab 3--->
+			<div class="content" data-tab="3">
+				<div class="content-header">
+					<div class="content-header-intro">
+						<h2>Session Management</h2>
+						<p>View or modify current and past sessions.</p>
+					</div>
+				</div>
+				<div class="content-main-wrapper">
+					<div class="content-main">
+						<div class="row" id="manage-body">
+
+
+						</div>
+
+
+						<!-- Modal -->
+						<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog modal-xl">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title text-muted" id="calendarModalLabel">Select a date & time
+											frame:</h5>
+									</div>
+									<div class="modal-body" id="selectday-body">
+
+										<!---Calendar--->
+										<div mbsc-page class="demo-date-picker">
+
+											<div id="calendar"></div>
+											<div id="time"></div>
+
+										</div>
+										<!---Calendar--->
+
+										<div class="session-details">
+											<p class="label">Service Type:</p>
+											<p class="selectedService text-muted" id="pickedService"></p>
+											<p class="label2">Service price:</p>
+											<p class="selectedPrice text-muted" id="pickedPrice">$ /Hr</p>
+										</div>
+
+
+
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="cancelBook" data-bs-dismiss="modal">Cancel</button>
+
+										<button class="bookBtn" id="book">Confirm</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal -->
+					</div>
+				</div>
+			</div>
+			<!---Tab 3--->
+			<!---Tab 4--->
+			<div class="content" data-tab="4">
+				<div class="content-header">
+					<div class="content-header-intro">
+						<h2>Manage your studio rooms</h2>
+						<p>Add, edit, and delete the room images and prices for your studio profile.</p>
+					</div>
+
+
+
+				</div>
+				<div class="content-main-wrapper">
+					<div class="content-panel">
+						<div class="vertical-tabs">
+							<a class="vtab-button" data-for-tab="1" href="#">View Rooms</a>
+							<a class="vtab-button" data-for-tab="2" href="#">Manage Services</a>
+						</div>
+					</div>
+					<div class="myroom-content-main" data-tab="1">
+
+						<p class="roomcard-head text-muted">Select a room to edit:</p>
+
+						<!-- Modal -->
+						<!-- Button trigger modal -->
+						<button type="button" class="addNewRoom" data-bs-toggle="modal" data-bs-target="#myModal">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-plus-lg" viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z">
+								</path>
+							</svg>
+							Add Room
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal"
+							aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="myModal"><strong>Add a new room:</strong></h5>
+										<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+
+										<h5>Room Name</h5>
+										<div class="col-auto">
+											<input type="text" id="inputRmName" class="modalInput">
+										</div>
+
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" onclick="addNewRoom()">
+											Add
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal -->
+
+						<!-- Room Card -->
+						<div class="room row" id="room-row">
+							<!---Data displayed via js--->
+
+						</div>
+						<!---Room Card -->
+
+
+
+					</div>
+					<div class="myroom-content-main" data-tab="2">
+
+
+
+						<!-- Card One -->
+						<!-- <h3 class="roomcard-head text-muted">Select a service to edit:</h3> -->
+						<p class="servicecard-head text-muted">Select a service to edit:</p>
+
+						<!-- Modal -->
+						<!-- Button trigger modal -->
+						<button type="button" class="addNewService" data-bs-toggle="modal" data-bs-target="#myModal2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-plus-lg" viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z">
+								</path>
+							</svg>
+							Add Service
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2"
+							aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="myModal"><strong>Add a new service</strong></h5>
+										<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+
+										<h5>Service Name</h5>
+										<div class="col-auto">
+											<input type="text" id="inputService" class="modalInput">
+										</div>
+
+										<h5>Service Price</h5>
+										<div class="col-auto">
+											<input type="text" id="inputPrice" class="modalInput">
+										</div>
+
+										<div id="roomSelect">
+											<!---Rooms Will be Displayed Via JS-->
+
+										</div>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" onclick="addNewService()"
+											id="saveNewService">Add</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal -->
+
+						<!-- Service Card -->
+						<div class="service row" id="service">
+							<!---Data displayed via js--->
+						</div>
+						<!-- Service Card -->
+					</div>
+				</div>
+			</div>
+			<!---Tab 4--->
+			<!---Tab 5--->
+			<div class="content" data-tab="5">
+				<div class="content-header">
+					<div class="content-header-intro">
+						<h2>Manage your profile</h2>
+						<p>Edit your profile information such email, username, password, etc.</p>
+					</div>
+				</div>
+				<div class="content-main-wrapper">
+					<div class="content-main" id="profileInfo">
+						<div class="first-name">
+							<h3>First Name</h3>
+							<p class="firstName text-muted" id="firstName">User's First Name</p>
+							<div class="col-auto">
+								<input type="text" id="inputFirst" class="editInput">
+							</div>
+							<button class="edit" id="edit" value="edit">Edit</button>
+							<button class="save" type="submit" id="save" value="save">Save</button>
+							<button class="cancel" id="cancel" value="cancel">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="last-name">
+							<h3>Last Name</h3>
+							<p class="lastName text-muted" id="lastName">User's Last Name</p>
+							<div class="col-auto">
+								<input type="text" id="inputLast" class="editInput">
+							</div>
+							<button class="edit" id="edit2" value="edit2">Edit</button>
+							<button class="save" type="submit2" id="save2" value="save2">Save</button>
+							<button class="cancel" id="cancel2" value="cancel2">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="email-address">
+							<h3>Email Address</h3>
+							<p class="email text-muted" id="email">User's Email Address</p>
+							<div class="col-auto">
+								<input type="text" id="inputEmail" class="editInput">
+							</div>
+							<button class="edit" id="edit3" value="edit3">Edit</button>
+							<button class="save" type="submit" id="save3" value="save3">Save</button>
+							<button class="cancel" id="cancel3" value="cancel3">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="user-name">
+							<h3>Studio Name</h3>
+							<p class="studio-name text-muted" id="studioName">User's Studio Name</p>
+							<div class="col-auto">
+								<input type="text" id="inputName" class="editInput">
+							</div>
+							<button class="edit" id="edit4" value="edit4">Edit</button>
+							<button class="save" type="submit" id="save4" value="save4">Save</button>
+							<button class="cancel" id="cancel4" value="cancel4">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="phone-number">
+							<h3>Phone Number</h3>
+							<p class="phoneNumber text-muted" id="phoneNumber">User's Phone Number</p>
+							<div class="col-auto">
+								<input type="text" id="inputNumber" class="editInput">
+							</div>
+							<button class="edit" id="edit5" value="edit5">Edit</button>
+							<button class="save" type="submit" id="save5" value="save5">Save</button>
+							<button class="cancel" id="cancel5" value="cancel5">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="studio-address">
+							<h3>Studio Address</h3>
+							<p class="stuAddress text-muted" id="stuAddress">User's Studio Address</p>
+							<div class="col-auto">
+								<input type="text" id="inputAddress" class="editInput">
+							</div>
+							<button class="edit" id="edit6" value="edit6">Edit</button>
+							<button class="save" type="submit" id="save6" value="save6">Save</button>
+							<button class="cancel" id="cancel6" value="cancel6">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="studio-city">
+							<h3>Studio City</h3>
+							<p class="stuCity text-muted" id="stuCity">User's Studio City</p>
+							<div class="col-auto">
+								<input type="text" id="inputCity" class="editInput">
+							</div>
+							<button class="edit" id="edit7" value="edit7">Edit</button>
+							<button class="save" type="submit" id="save7" value="save7">Save</button>
+							<button class="cancel" id="cancel7" value="cancel7">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="studio-state">
+							<h3>State</h3>
+							<p class="stuState text-muted" id="stuState">User's State</p>
+							<select class="editInput" id="inputState">
+								<option value="AL">Alabama</option>
+								<option value="AK">Alaska</option>
+								<option value="AZ">Arizona</option>
+								<option value="AR">Arkansas</option>
+								<option value="CA">California</option>
+								<option value="CO">Colorado</option>
+								<option value="CT">Connecticut</option>
+								<option value="DE">Delaware</option>
+								<option value="DC">District Of Columbia</option>
+								<option value="FL">Florida</option>
+								<option value="GA">Georgia</option>
+								<option value="HI">Hawaii</option>
+								<option value="ID">Idaho</option>
+								<option value="IL">Illinois</option>
+								<option value="IN">Indiana</option>
+								<option value="IA">Iowa</option>
+								<option value="KS">Kansas</option>
+								<option value="KY">Kentucky</option>
+								<option value="LA">Louisiana</option>
+								<option value="ME">Maine</option>
+								<option value="MD">Maryland</option>
+								<option value="MA">Massachusetts</option>
+								<option value="MI">Michigan</option>
+								<option value="MN">Minnesota</option>
+								<option value="MS">Mississippi</option>
+								<option value="MO">Missouri</option>
+								<option value="MT">Montana</option>
+								<option value="NE">Nebraska</option>
+								<option value="NV">Nevada</option>
+								<option value="NH">New Hampshire</option>
+								<option value="NJ">New Jersey</option>
+								<option value="NM">New Mexico</option>
+								<option value="NY">New York</option>
+								<option value="NC">North Carolina</option>
+								<option value="ND">North Dakota</option>
+								<option value="OH">Ohio</option>
+								<option value="OK">Oklahoma</option>
+								<option value="OR">Oregon</option>
+								<option value="PA">Pennsylvania</option>
+								<option value="RI">Rhode Island</option>
+								<option value="SC">South Carolina</option>
+								<option value="SD">South Dakota</option>
+								<option value="TN">Tennessee</option>
+								<option value="TX">Texas</option>
+								<option value="UT">Utah</option>
+								<option value="VT">Vermont</option>
+								<option value="VA">Virginia</option>
+								<option value="WA">Washington</option>
+								<option value="WV">West Virginia</option>
+								<option value="WI">Wisconsin</option>
+								<option value="WY">Wyoming</option>
+							</select>
+							<button class="edit" id="edit8" value="edit8">Edit</button>
+							<button class="save" type="submit" id="save8" value="save8">Save</button>
+							<button class="cancel" id="cancel8" value="cancel8">Cancel</button>
+						</div>
+						<hr class="hr-text">
+						<div class="studio-zip">
+							<h3>Zip Code</h3>
+							<p class="stuZip text-muted" id="stuZip">User's Zip Code</p>
+							<div class="col-auto">
+								<input type="text" id="inputZip" class="editInput">
+							</div>
+							<button class="edit" id="edit9" value="edit9">Edit</button>
+							<button class="save" type="submit" id="save9" value="save9">Save</button>
+							<button class="cancel" id="cancel9" value="cancel9">Cancel</button>
+						</div>
+
+						<div class="profile-image">
+							<div class="card-body">
+								<img class="card-img-bottom" id="profile-card">
+								<input class="upload-profile" type="file" name="files" id="files" required />
+								<input type="hidden" name="url" id="url" />
+								<button class="edit" id="edit10" value="edit10">Edit</button>
+								<button class="save" id="saveImg" onclick="uploadimage()">Upload</button>
+								<button class="cancel" id="cancel10" value="cancel10">Cancel</button>
+							</div>
+						</div>
+						<div class="hprofile-image">
+							<div class="card-body">
+								<img class="card-img-bottom" id="hprofile-card">
+								<input class="upload-profile" type="file" name="hfiles" id="hfiles" required />
+								<input type="hidden" name="hurl" id="hurl" />
+								<button class="edit" id="edit11" value="edit11">Edit</button>
+								<button class="save" id="saveImg2" onclick="uploadHomeImage()">Upload</button>
+								<button class="cancel" id="cancel11" value="cancel11">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!---Tab 5--->
+			<!---Tab 6--->
+			<div class="content" data-tab="6">
+				<div class="content-header">
+					<div class="content-header-intro">
+						<h2>Manage your payment methods</h2>
+						<p>Edit, add, and delete new credit/debit cards.</p>
+					</div>
+
+					<button type="button" class="addNewAccount" id="newAccountBtn" onclick="handleAuthorize()">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-plus-lg" viewBox="0 0 16 16">
+							<path fill-rule="evenodd"
+								d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z">
+							</path>
+						</svg>
+						Set Up Account
+					</button>
+
+				</div>
+				<div class="content-main-wrapper">
+					<div class="content-main">
+						<div class="card-grid" id="bankGrid">
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!---Tab 6--->
+
+			<!---Footer--->
+			<footer class="my-5 pt-5 text-muted text-center text-small">
+				<p class="mb-1">© 2022 StudioPick.</p>
+				<ul class="list-inline">
+					<li class="list-inline-item"><button type="button" class="twitter-btn">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#6c757d"
+								class="bi bi-twitter" viewBox="0 0 16 16">
+								<path
+									d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z">
+								</path>
+							</svg>
+						</button></li>
+					<li class="list-inline-item"><button type="button" class="instagram-btn">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#6c757d"
+								class="bi bi-instagram" viewBox="0 0 16 16">
+								<path
+									d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z">
+								</path>
+							</svg>
+						</button></li>
+					<li class="list-inline-item"><button type="button" class="facebook-btn">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#6c757d"
+								class="bi bi-facebook" viewBox="0 0 16 16">
+								<path
+									d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z">
+								</path>
+							</svg>
+						</button></li>
+				</ul>
+			</footer>
+			<!---Footer--->
+
+		</div>
+	</main>
+
+
+	<script>
+		var myModal = document.getElementById('myModal');
+	</script>
+
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use -->
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-functions.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-firestore.js"></script>
+
+	<!--- Stripe library -->
+	<script src="https://js.stripe.com/v3/"></script>
+	<!--- Stripe library -->
+
+	<!---Javascript--->
+	<script src="Javascript/studiodash.js"></script>
+	<!---Javascript--->
+
+
+
+	<!----More Bootstrap--->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+		integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+		crossorigin="anonymous"></script>
+	<!----More Bootstrap--->
+
+</body>
+
+</html>
