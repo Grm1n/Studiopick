@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@mailchimp/mailchimp_transactional": "^1.0.50",
+    "@sendgrid/mail": "^7.7.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "firebase": "^9.15.0",
+    "geofire": "^6.0.0",
+    "haversine": "^1.1.1",
+    "nodemailer": "^6.9.1",
+    "stripe": "^11.16.0"
+  },
+  "devDependencies": {
+    "prettier": "2.7.1"
+  },
+  "scripts": {
+    "build": "webpack"
+  }
+}
